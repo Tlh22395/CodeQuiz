@@ -1,0 +1,17 @@
+body {
+  text-align: center;
+}
+
+#questionsScreen {
+  text-align: center;
+}
+#startScreen {
+}
+
+#example-question {
+  display: none;
+}
+
+#endScreen {
+  display: none;
+}

@@ -1,13 +1,11 @@
 //created variables for buttons, answers, and quiz
-var startButton = document.getElementById("start");
+var startBtn = document.getElementById("start");
 var startScreen = document.getElementById("startScreen");
-var questionsScreen = document.getElementById("questionsScreen");
-var endScreen = document.getElementById("endScreen");
-var answers = [] 
+var questionsScreen = document.getElementById("questionScreen");
+var gameOverScreen = document.getElementById("endScreen");
+var answers = []
 var index = 0
 var score = 0
-var seconds = 40
-var timer = document.getElementById("time")
 
 //questions for quiz
 var questions = [
@@ -38,60 +36,43 @@ var questions = [
     },
 ];
 // function for quiz questions
-function questionMaker() {
-    if (index >= questions.length) {
-        endGame();
-        return;
-    }
-    console.log('questions', question[index])
-    questionsScreen.innerHTML = questions[index].q
-    for (var i = 0; i < question[index].answers.length; i++) {
-        var answerBtn = document.createElement("Button");
-        answerBtn.innerHTML = questions[index].answers[i];
-        answerBtn.setAttribute("value", question[index].answers[i]);
-        questionsScreen.appendChild(answerBtn);
+function questionBuilder() {
+    console.log(questions[index])
+    questionsScreen.innerHTML = questions[index].q         
+    for (var i = 0; i < questions[index].answers.length; i++) {
+        var answerButton = document.createElement("BUTTON");
+        answerButton.innerHTML = questions[index].answers[i];
+        answerButton.setAttribute("value", questions[index].answers[i])
+        questionsScreen.appendChild(answerButton)
 
-        answerBtn.addEventListener("click", function (quiz) {
-            console.log(quiz.target.value)
-            if(quiz.target.value === questions[index].correctAnswer) {
+        answerButton.addEventListener("click", function (event) {
+            console.log(event.target.value)
+            if (event.target.value === questions[index].correctAnswer) {
                 score++
-                console.log("Correct Answers")
-                console.log("Score")
+                console.log("correct")
+                console.log(score)
+                
             }
-            else if (quiz.target.value !== question[index].correctAnswer) {
-                (secondsLeft = - 5)
+            else if (event.target.value !== questions[index].correctAnswer) {
                 console.log("incorrect")
             }
-            index++;
-            questionMaker();
+            index++
+            questionBuilder();
+            
+
         })
     }
 }
 
-//function for start button
-startButton.addEventListener("click", function () {
-    console.log("button clicked")
-    startScreen.style.display = "none";
-    questionsScreen.display.innerHTML = "questionsScreen";
 
-    setTimer();
-    questionMaker();
+startBtn.addEventListener("click", function () {
+    console.log("button clicked")
+    startScreen.style.display = "none"
+    questionsScreen.style.display = "block";
+    questionBuilder();
 })
 
-//create function for timer
-function setTimer(){
-    var timeInt = setInterval (function(){
-        seconds--;
-        timer.textContent = seconds === 0;
-            clearInterval(timeInt)
-
-    }, 1000)
-
-}
-function endGame() {
-    console.log("Thank you for playing!!")
+function endgame (){
+    startScreen.style.display = "none";
     questionsScreen.style.display = "none";
-    endScreen.innerHTML = "Your Score: " + score + questions.length
-};
-
-
+}
